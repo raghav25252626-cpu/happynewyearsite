@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year 2026 | Shipra</title>
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@300;400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --p-pink: #F8B4C4;
+            --p-lavender: #D4A5FF;
+            --p-cream: #FFF9F0;
+            --p-mint: #A8E6CF;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFF9F0 0%, #FEE2E2 50%, #E0F2FE 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #4A4A4A;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+        .script { font-family: 'Dancing Script', cursive; }
+
+        /* Butterfly Styling */
+        .butterfly {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            z-index: 50;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Flower Petals */
+        .petal {
+            position: fixed;
+            background: var(--p-pink);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.4;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Growing Tree SVG Styling */
+        #tree-svg {
+            position: fixed;
+            bottom: 0;
+            left: -50px;
+            width: 300px;
+            height: 500px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Glassmorphism Gallery Cards */
+        .gallery-frame {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+            height: 400px; /* Fixed Uniform Height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Full image fits without cropping */
+            border-radius: 12px;
+        }
+
+        .gallery-frame:hover {
+            transform: translateY(-10px) rotate(2deg);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Typewriter Cursor */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background-color: var(--p-pink);
+            margin-left: 5px;
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #FF80A0, #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* For Mobile Masonry Look */
+        .masonry-item:nth-child(even) { margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <!-- Butterflies and Petals Layer -->
+    <div id="nature-layer"></div>
+
+    <!-- Background Tree -->
+    <svg id="tree-svg" viewBox="0 0 200 400">
+        <path id="trunk" d="M100 400 Q100 300 100 200 T120 100" stroke="#8B5E3C" stroke-width="5" fill="none" />
+        <g id="branches"></g>
+        <g id="flowers"></g>
+    </svg>
+
+    <!-- Progress Indicator -->
+    <div class="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-2">
+        <div id="v-progress" class="w-1 bg-pink-200 rounded-full h-32 relative">
+            <div id="v-bar" class="absolute top-0 w-full bg-pink-500 rounded-full" style="height:0%"></div>
+        </div>
+        <span class="text-[10px] uppercase tracking-widest text-pink-400 rotate-90 mt-4">Growth</span>
+    </div>
+
+    <!-- Section 1: Hero -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 relative z-10">
+        <!-- Year Animation Holder (2025 -> 2026) -->
+        <h1 class="serif text-5xl md:text-8xl text-gradient text-center mb-4" id="hero-title">
+            Happy New Year <span id="year-val">2025</span><span class="cursor"></span>
+        </h1>
+        <div class="script text-3xl md:text-5xl text-pink-400 opacity-0 mb-8" id="hero-name">Shipra</div>
+        <p class="max-w-md text-center text-gray-500 leading-relaxed italic" id="hero-typewriter"></p>
+        
+        <div class="mt-20 flex flex-col items-center opacity-0" id="scroll-prompt">
+            <span class="text-xs tracking-[0.4em] uppercase text-pink-300 mb-2">Scroll to explore</span>
+            <div class="w-px h-12 bg-gradient-to-b from-pink-300 to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Section 2: Moments Gallery -->
+    <section class="py-20 px-6 max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="serif text-4xl md:text-6xl mb-4">Moments</h2>
+            <div class="h-1 w-24 bg-pink-200 mx-auto"></div>
+        </div>
+
+        <!-- Masonry-style Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="gallery-grid">
+            <div class="gallery-frame masonry-item" data-gsap="fade-up"><img src="img1.jpg"></div>
+            <div class="gallery-frame masonry-item" data-gsap="fade-up" data-delay="0.1"><img src="img2.jpg"></div>
+            <div class="gallery-frame masonry-item" data-gsap="fade-up" data-delay="0.2"><img src="img3.jpg"></div>
+            <div class="gallery-frame masonry-item" data-gsap="fade-up"><img src="img4.jpg"></div>
+            <div class="gallery-frame masonry-item" data-gsap="fade-up" data-delay="0.1"><img src="img5.jpg"></div>
+            <div class="gallery-frame masonry-item" data-gsap="fade-up" data-delay="0.2"><img src="img6.jpg"></div>
+            <div class="gallery-frame md:col-span-2 lg:col-span-3 !h-auto py-8" data-gsap="fade-up"><img src="img7.jpg" class="!max-h-[500px]"></div>
+        </div>
+    </section>
+
+    <!-- Section 3: Appreciation -->
+    <section class="py-24 px-6 relative z-10">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white/40 backdrop-blur-md p-8 rounded-[40px] border border-white/60" data-gsap="zoom-in">
+                <div class="text-4xl mb-4">✨</div>
+                <h3 class="serif text-2xl mb-2">Your Unique Vibe</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">There's an effortless energy you bring into every space. It’s light, genuine, and truly special.</p>
+            </div>
+            <div class="bg-white/40 backdrop-blur-md p-8 rounded-[40px] border border-white/60 mt-6 md:mt-12" data-gsap="zoom-in">
+                <div class="text-4xl mb-4">🎨</div>
+                <h3 class="serif text-2xl mb-2">Creative Spirit</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">From your style to your sketches, your creativity shows a beautiful perspective of the world.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Final Message -->
+    <section class="min-h-screen flex items-center justify-center px-6 relative z-10">
+        <div class="text-center max-w-2xl bg-white/30 backdrop-blur-xl p-10 md:p-16 rounded-[50px] border border-white/40 shadow-2xl">
+            <h2 class="serif text-3xl md:text-4xl mb-8">A Note for 2026</h2>
+            <p id="final-message" class="text-lg md:text-xl text-gray-600 leading-relaxed font-light"></p>
+            <div class="mt-12 opacity-0 script text-3xl text-pink-500" id="signature">Happy New Year, Shipra! 🌸</div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-[10px] tracking-widest text-gray-400 uppercase">
+        Built for a special soul • 2026 • CODED BY RGHV
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. BUTTERFLY & PETAL ENGINE ---
+        function createNature() {
+            const container = document.getElementById('nature-layer');
+            
+            // Butterflies
+            for (let i = 0; i < 12; i++) {
+                const b = document.createElement('div');
+                b.className = 'butterfly';
+                b.innerHTML = `<svg viewBox="0 0 100 100"><path d="M50 50 L20 20 Q50 10 80 20 L50 50 Z" fill="${['#F8B4C4','#D4A5FF','#A8E6CF'][i%3]}"><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="20 50 50" dur="0.2s" repeatCount="indefinite" autoreverse="true" /></path></svg>`;
+                container.appendChild(b);
+                animateElement(b, true);
+            }
+
+            // Petals
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'petal';
+                const size = Math.random() * 15 + 10;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                container.appendChild(p);
+                animateElement(p, false);
+            }
+        }
+
+        function animateElement(el, isButterfly) {
+            const duration = isButterfly ? 15 + Math.random() * 10 : 10 + Math.random() * 10;
+            gsap.set(el, { x: Math.random() * window.innerWidth, y: -50, opacity: 0 });
+            
+            gsap.to(el, {
+                x: `+=${(Math.random() - 0.5) * 400}`,
+                y: window.innerHeight + 100,
+                rotation: 360,
+                opacity: 0.7,
+                duration: duration,
+                ease: "none",
+                repeat: -1,
+                delay: Math.random() * 10
+            });
+        }
+
+        // --- 2. THE GROWING TREE ---
+        function growTree() {
+            const branches = document.getElementById('branches');
+            const flowers = document.getElementById('flowers');
+            
+            for(let i=0; i<20; i++) {
+                const branch = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                branch.setAttribute("d", `M100 ${250 - i*10} Q${100 + (i%2?40:-40)} ${200-i*10} ${100 + (i%2?60:-60)} ${180-i*10}`);
+                branch.setAttribute("stroke", "#8B5E3C");
+                branch.setAttribute("stroke-width", "2");
+                branch.setAttribute("fill", "none");
+                branch.style.opacity = "0";
+                branches.appendChild(branch);
+
+                const flower = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                flower.setAttribute("cx", 100 + (i%2?60:-60));
+                flower.setAttribute("cy", 180-i*10);
+                flower.setAttribute("r", "5");
+                flower.setAttribute("fill", i%2 ? "#F8B4C4" : "#D4A5FF");
+                flower.style.opacity = "0";
+                flowers.appendChild(flower);
+
+                gsap.to([branch, flower], {
+                    opacity: 1,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: "body",
+                        start: `${i * 5}% top`,
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            }
+        }
+
+        // --- 3. TYPEWRITER UTILITY ---
+        function typeEffect(id, text, speed = 50, callback) {
+            let i = 0;
+            const el = document.getElementById(id);
+            function type() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) callback();
+            }
+            type();
+        }
+
+        // --- 4. YEAR SWAP ANIMATION ---
+        function runYearAnimation() {
+            const yearSpan = document.getElementById('year-val');
+            setTimeout(() => {
+                yearSpan.innerText = "202"; // Delete the '5'
+                setTimeout(() => {
+                    yearSpan.innerText = "2026"; // Type the '6'
+                    gsap.to("#hero-name", { opacity: 1, y: -10, duration: 1 });
+                    gsap.to("#scroll-prompt", { opacity: 1, duration: 1 });
+                    typeEffect("hero-typewriter", "A year as bright and stunning as your spirit. Scroll down to see some moments.", 40);
+                }, 500);
+            }, 2000);
+        }
+
+        // --- 5. INITIALIZATION ---
+        window.addEventListener('load', () => {
+            createNature();
+            growTree();
+            runYearAnimation();
+        });
+
+        // Gallery Scroll Animations
+        gsap.utils.toArray("[data-gsap]").forEach(el => {
+            const effect = el.getAttribute("data-gsap");
+            const delay = parseFloat(el.getAttribute("data-delay")) || 0;
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 90%" },
+                opacity: 0,
+                y: effect === "fade-up" ? 50 : 0,
+                scale: effect === "zoom-in" ? 0.8 : 1,
+                duration: 1,
+                delay: delay
+            });
+        });
+
+        // Final Message Trigger
+        let typedFinal = false;
+        ScrollTrigger.create({
+            trigger: "#final-message",
+            start: "top 80%",
+            onEnter: () => {
+                if(!typedFinal) {
+                    const shortMsg = "Shipra, wishing you a 2026 full of peace, creativity, and joy! 🌸 You have this effortless way of making everything feel brighter. May your year be as wonderful and vibrant as your spirit. Here’s to a stunning 2026 ahead! ✨";
+                    typeEffect("final-message", shortMsg, 35, () => {
+                        gsap.to("#signature", { opacity: 1, y: -10, duration: 1.5 });
+                    });
+                    typedFinal = true;
+                }
+            }
+        });
+
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const bar = document.getElementById("v-bar");
+            if(bar) bar.style.height = scrolled + "%";
+        });
+    </script>
+</body>
+</html>
